@@ -91,6 +91,7 @@ SDRAM_HandleTypeDef hsdram1;
 #define 	BUFSIZE 256
 char	SendBuffer[BUFSIZE];
 int	Counter;
+int KeyState=0;
 
 /* USER CODE END PV */
 
@@ -164,7 +165,6 @@ int main(void)
   MX_QUADSPI_Init();
   MX_RTC_Init();
   MX_SAI2_Init();
-  MX_SDMMC1_MMC_Init();
   MX_SPI2_Init();
   MX_USART3_UART_Init();
   MX_USB_OTG_FS_PCD_Init();
@@ -176,14 +176,19 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* USER CODE END WHILE */
+	    HAL_GPIO_TogglePin(GPIOI, GPIO_PIN_13);
 
-    /* USER CODE BEGIN 3 */
-	    snprintf (SendBuffer,BUFSIZE,"USART3:%d secs\r\n",Counter);
+	    KeyState = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13);
+	    HAL_GPIO_WritePin(GPIOJ, GPIO_PIN_2, KeyState);
+
+
+	    snprintf(SendBuffer,BUFSIZE,"Hello World [%d]: Key:%d\n\r",Counter++,KeyState);
 	    HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),1);
 
 	    HAL_Delay(1000);
-	    Counter++;
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
 
   }
   /* USER CODE END 3 */
