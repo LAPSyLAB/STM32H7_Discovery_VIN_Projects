@@ -181,14 +181,14 @@ uint8_t Space[] = " - ";
 
   /*-[ I2C Bus Scanning ]-*/
 		snprintf(SendBuffer,BUFSIZE,"I2C Scanning started !\n\r");
-		HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),1);
+		HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),100);
 
 		 for(i=1; i<128; i++)
 		 {
 			 retval = HAL_I2C_IsDeviceReady(&hi2c4, (uint16_t)(i<<1), 3, 5);
 			 if (retval != HAL_OK) /* No ACK Received At That Address */
 			 {
-				 HAL_UART_Transmit(&huart3, Space, sizeof(Space), 1);
+				 HAL_UART_Transmit(&huart3, Space, sizeof(Space), 100);
 			 }
 			 else if(retval == HAL_OK)
 			 {
@@ -197,7 +197,7 @@ uint8_t Space[] = " - ";
 			 }
 		 }
 			snprintf(SendBuffer,BUFSIZE,"I2C Scanning stopped !\n\r");
-			HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),1);
+			HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),100);
    /*--[ Scanning Done ]--*/
 
   /* USER CODE END 2 */
@@ -212,14 +212,14 @@ uint8_t Space[] = " - ";
 	    HAL_GPIO_WritePin(GPIOJ, GPIO_PIN_2, KeyState);
 
 
-		// Reading register R24 (addr. 0x18) default value of 0x8b
+		// Reading register R0 (addr. 0x00) default value of 0x8994
 	    dataBuffer[0] = 0; dataBuffer[1] = 0x00;
 	    retval = HAL_I2C_Master_Transmit(&hi2c4, (0x1a << 1), dataBuffer, 2, HAL_MAX_DELAY);
 
 	    retval = HAL_I2C_Master_Receive(&hi2c4, (0x1a << 1), dataBuffer, 2, HAL_MAX_DELAY);
 
 	    snprintf(SendBuffer,BUFSIZE,"Hello World [%d]: Key:%d Reg.value:0x%4x\n\r",Counter++,KeyState, dataBuffer[0]*256+dataBuffer[1]);
-	    HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),1);
+	    HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),100);
 
 	    HAL_Delay(1000);
     /* USER CODE END WHILE */

@@ -217,7 +217,7 @@ int main(void)
 			  Delaymsecs = noteDurations[melodyIndex][noteIndex] * melodySlowfactor[melodyIndex];
 
 			  snprintf (SendBuffer,BUFSIZE,"Melody[%d],Note #%d F=%d Hz Duration:%d ms| ARR=%d CCR1=%d\r\n",melodyIndex,noteIndex,melody[melodyIndex][noteIndex],Delaymsecs,htim2.Instance->ARR,htim2.Instance->CCR1);
-			  HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),1);
+			  HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),100);
 
 			  HAL_GPIO_TogglePin(GPIOI, GPIO_PIN_13);
 //			  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_3);
@@ -228,7 +228,7 @@ int main(void)
 		  	  HAL_Delay(Delaymsecs);
 	  	  }
 		  snprintf (SendBuffer,BUFSIZE,"\r\n\r\nEnd of Melody[%d]\r\n\r\n",melodyIndex);
-		  HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),1);
+		  HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),100);
 
 	  }
 

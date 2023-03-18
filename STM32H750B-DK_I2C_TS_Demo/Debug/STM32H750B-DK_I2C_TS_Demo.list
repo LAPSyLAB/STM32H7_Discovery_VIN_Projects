@@ -499,12 +499,12 @@ uint8_t Space[] = " - ";
  80006f0:	f44f 7180 	mov.w	r1, #256	; 0x100
  80006f4:	4858      	ldr	r0, [pc, #352]	; (8000858 <main+0x1c4>)
  80006f6:	f00c f99b 	bl	800ca30 <sniprintf>
-		HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),1);
+		HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),100);
  80006fa:	4857      	ldr	r0, [pc, #348]	; (8000858 <main+0x1c4>)
  80006fc:	f7ff fdf0 	bl	80002e0 <strlen>
  8000700:	4603      	mov	r3, r0
  8000702:	b29a      	uxth	r2, r3
- 8000704:	2301      	movs	r3, #1
+ 8000704:	2364      	movs	r3, #100	; 0x64
  8000706:	4954      	ldr	r1, [pc, #336]	; (8000858 <main+0x1c4>)
  8000708:	4854      	ldr	r0, [pc, #336]	; (800085c <main+0x1c8>)
  800070a:	f00a fc6c 	bl	800afe6 <HAL_UART_Transmit>
@@ -533,9 +533,9 @@ uint8_t Space[] = " - ";
  8000732:	2b00      	cmp	r3, #0
  8000734:	d006      	beq.n	8000744 <main+0xb0>
 			 {
-				 HAL_UART_Transmit(&huart3, Space, sizeof(Space), 1);
+				 HAL_UART_Transmit(&huart3, Space, sizeof(Space), 100);
  8000736:	4639      	mov	r1, r7
- 8000738:	2301      	movs	r3, #1
+ 8000738:	2364      	movs	r3, #100	; 0x64
  800073a:	2204      	movs	r2, #4
  800073c:	4847      	ldr	r0, [pc, #284]	; (800085c <main+0x1c8>)
  800073e:	f00a fc52 	bl	800afe6 <HAL_UART_Transmit>
@@ -576,12 +576,12 @@ uint8_t Space[] = " - ";
  800077c:	f44f 7180 	mov.w	r1, #256	; 0x100
  8000780:	4835      	ldr	r0, [pc, #212]	; (8000858 <main+0x1c4>)
  8000782:	f00c f955 	bl	800ca30 <sniprintf>
-			HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),1);
+			HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),100);
  8000786:	4834      	ldr	r0, [pc, #208]	; (8000858 <main+0x1c4>)
  8000788:	f7ff fdaa 	bl	80002e0 <strlen>
  800078c:	4603      	mov	r3, r0
  800078e:	b29a      	uxth	r2, r3
- 8000790:	2301      	movs	r3, #1
+ 8000790:	2364      	movs	r3, #100	; 0x64
  8000792:	4931      	ldr	r1, [pc, #196]	; (8000858 <main+0x1c4>)
  8000794:	4831      	ldr	r0, [pc, #196]	; (800085c <main+0x1c8>)
  8000796:	f00a fc26 	bl	800afe6 <HAL_UART_Transmit>
@@ -667,12 +667,12 @@ uint8_t Space[] = " - ";
  8000826:	f44f 7180 	mov.w	r1, #256	; 0x100
  800082a:	480b      	ldr	r0, [pc, #44]	; (8000858 <main+0x1c4>)
  800082c:	f00c f900 	bl	800ca30 <sniprintf>
-	    HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),1);
+	    HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),100);
  8000830:	4809      	ldr	r0, [pc, #36]	; (8000858 <main+0x1c4>)
  8000832:	f7ff fd55 	bl	80002e0 <strlen>
  8000836:	4603      	mov	r3, r0
  8000838:	b29a      	uxth	r2, r3
- 800083a:	2301      	movs	r3, #1
+ 800083a:	2364      	movs	r3, #100	; 0x64
  800083c:	4906      	ldr	r1, [pc, #24]	; (8000858 <main+0x1c4>)
  800083e:	4807      	ldr	r0, [pc, #28]	; (800085c <main+0x1c8>)
  8000840:	f00a fbd1 	bl	800afe6 <HAL_UART_Transmit>

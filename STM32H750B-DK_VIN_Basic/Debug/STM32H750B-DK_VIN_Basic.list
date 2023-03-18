@@ -523,12 +523,12 @@ int main(void)
  8000720:	f44f 7180 	mov.w	r1, #256	; 0x100
  8000724:	480e      	ldr	r0, [pc, #56]	; (8000760 <main+0xcc>)
  8000726:	f00b f99b 	bl	800ba60 <sniprintf>
-	    HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),1);
+	    HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),100);
  800072a:	480d      	ldr	r0, [pc, #52]	; (8000760 <main+0xcc>)
  800072c:	f7ff fdd8 	bl	80002e0 <strlen>
  8000730:	4603      	mov	r3, r0
  8000732:	b29a      	uxth	r2, r3
- 8000734:	2301      	movs	r3, #1
+ 8000734:	2364      	movs	r3, #100	; 0x64
  8000736:	490a      	ldr	r1, [pc, #40]	; (8000760 <main+0xcc>)
  8000738:	480a      	ldr	r0, [pc, #40]	; (8000764 <main+0xd0>)
  800073a:	f009 fc6c 	bl	800a016 <HAL_UART_Transmit>

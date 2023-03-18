@@ -60,8 +60,8 @@ all: main-build
 main-build: STM32H750B-DK_I2C_TS_Demo.elf secondary-outputs
 
 # Tool invocations
-STM32H750B-DK_I2C_TS_Demo.elf STM32H750B-DK_I2C_TS_Demo.map: $(OBJS) $(USER_OBJS) D:\Delovni\CubeIDE\Sluzba\STM32H750B-DK_Working_projects\STM32H750B-DK_I2C_TS_Demo\STM32H750XBHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "STM32H750B-DK_I2C_TS_Demo.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"D:\Delovni\CubeIDE\Sluzba\STM32H750B-DK_Working_projects\STM32H750B-DK_I2C_TS_Demo\STM32H750XBHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32H750B-DK_I2C_TS_Demo.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+STM32H750B-DK_I2C_TS_Demo.elf STM32H750B-DK_I2C_TS_Demo.map: $(OBJS) $(USER_OBJS) D:\Delovni\CubeIDE\Sluzba\STM32H7_Discovery_VIN_Projects\STM32H750B-DK_I2C_TS_Demo\STM32H750XBHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "STM32H750B-DK_I2C_TS_Demo.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"D:\Delovni\CubeIDE\Sluzba\STM32H7_Discovery_VIN_Projects\STM32H750B-DK_I2C_TS_Demo\STM32H750XBHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32H750B-DK_I2C_TS_Demo.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

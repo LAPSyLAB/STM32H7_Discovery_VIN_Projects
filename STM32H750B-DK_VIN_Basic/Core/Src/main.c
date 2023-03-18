@@ -183,7 +183,7 @@ int main(void)
 
 
 	    snprintf(SendBuffer,BUFSIZE,"Hello World [%d]: Key:%d\n\r",Counter++,KeyState);
-	    HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),1);
+	    HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),100);
 
 	    HAL_Delay(1000);
     /* USER CODE END WHILE */

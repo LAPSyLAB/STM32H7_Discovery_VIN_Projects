@@ -651,12 +651,12 @@ int main(void)
  800080c:	f44f 7180 	mov.w	r1, #256	; 0x100
  8000810:	482f      	ldr	r0, [pc, #188]	; (80008d0 <main+0x1dc>)
  8000812:	f00c fbf3 	bl	800cffc <sniprintf>
-			  HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),1);
+			  HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),100);
  8000816:	482e      	ldr	r0, [pc, #184]	; (80008d0 <main+0x1dc>)
  8000818:	f7ff fd62 	bl	80002e0 <strlen>
  800081c:	4603      	mov	r3, r0
  800081e:	b29a      	uxth	r2, r3
- 8000820:	2301      	movs	r3, #1
+ 8000820:	2364      	movs	r3, #100	; 0x64
  8000822:	492b      	ldr	r1, [pc, #172]	; (80008d0 <main+0x1dc>)
  8000824:	482b      	ldr	r0, [pc, #172]	; (80008d4 <main+0x1e0>)
  8000826:	f00a fec5 	bl	800b5b4 <HAL_UART_Transmit>
@@ -691,12 +691,12 @@ int main(void)
  8000854:	f44f 7180 	mov.w	r1, #256	; 0x100
  8000858:	481d      	ldr	r0, [pc, #116]	; (80008d0 <main+0x1dc>)
  800085a:	f00c fbcf 	bl	800cffc <sniprintf>
-		  HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),1);
+		  HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),100);
  800085e:	481c      	ldr	r0, [pc, #112]	; (80008d0 <main+0x1dc>)
  8000860:	f7ff fd3e 	bl	80002e0 <strlen>
  8000864:	4603      	mov	r3, r0
  8000866:	b29a      	uxth	r2, r3
- 8000868:	2301      	movs	r3, #1
+ 8000868:	2364      	movs	r3, #100	; 0x64
  800086a:	4919      	ldr	r1, [pc, #100]	; (80008d0 <main+0x1dc>)
  800086c:	4819      	ldr	r0, [pc, #100]	; (80008d4 <main+0x1e0>)
  800086e:	f00a fea1 	bl	800b5b4 <HAL_UART_Transmit>
