@@ -34,34 +34,34 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := STM32H750B-DK_VIN_Basic
+BUILD_ARTIFACT_NAME := STM32H750B-DK_Breadboard_VIN
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-STM32H750B-DK_VIN_Basic.elf \
+STM32H750B-DK_Breadboard_VIN.elf \
 
 MAP_FILES += \
-STM32H750B-DK_VIN_Basic.map \
+STM32H750B-DK_Breadboard_VIN.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-STM32H750B-DK_VIN_Basic.list \
+STM32H750B-DK_Breadboard_VIN.list \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: STM32H750B-DK_VIN_Basic.elf secondary-outputs
+main-build: STM32H750B-DK_Breadboard_VIN.elf secondary-outputs
 
 # Tool invocations
-STM32H750B-DK_VIN_Basic.elf STM32H750B-DK_VIN_Basic.map: $(OBJS) $(USER_OBJS) D:\Delovni\CubeIDE\Sluzba\STM32H7_Discovery_VIN_Projects\STM32H750B-DK_VIN_Basic\STM32H750XBHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "STM32H750B-DK_VIN_Basic.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"D:\Delovni\CubeIDE\Sluzba\STM32H7_Discovery_VIN_Projects\STM32H750B-DK_VIN_Basic\STM32H750XBHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32H750B-DK_VIN_Basic.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+STM32H750B-DK_Breadboard_VIN.elf STM32H750B-DK_Breadboard_VIN.map: $(OBJS) $(USER_OBJS) D:\Delovni\CubeIDE\Sluzba\STM32H7_Discovery_VIN_Projects\STM32H750B-DK_Breadboard_VIN\STM32H750XBHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "STM32H750B-DK_Breadboard_VIN.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"D:\Delovni\CubeIDE\Sluzba\STM32H7_Discovery_VIN_Projects\STM32H750B-DK_Breadboard_VIN\STM32H750XBHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32H750B-DK_Breadboard_VIN.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -70,14 +70,14 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-STM32H750B-DK_VIN_Basic.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "STM32H750B-DK_VIN_Basic.list"
+STM32H750B-DK_Breadboard_VIN.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "STM32H750B-DK_Breadboard_VIN.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) STM32H750B-DK_VIN_Basic.elf STM32H750B-DK_VIN_Basic.list STM32H750B-DK_VIN_Basic.map default.size.stdout
+	-$(RM) STM32H750B-DK_Breadboard_VIN.elf STM32H750B-DK_Breadboard_VIN.list STM32H750B-DK_Breadboard_VIN.map default.size.stdout
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)

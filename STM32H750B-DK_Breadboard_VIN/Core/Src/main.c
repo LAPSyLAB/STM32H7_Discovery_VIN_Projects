@@ -92,6 +92,7 @@ SDRAM_HandleTypeDef hsdram1;
 char	SendBuffer[BUFSIZE];
 int	Counter;
 int KeyState=0;
+unsigned int AnalogValue;
 
 /* USER CODE END PV */
 
@@ -178,11 +179,17 @@ int main(void)
   {
 	    HAL_GPIO_TogglePin(GPIOI, GPIO_PIN_13);
 
-	    KeyState = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13);
-	    HAL_GPIO_WritePin(GPIOJ, GPIO_PIN_2, KeyState);
+	    HAL_ADC_Start(&hadc1);
+	    HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
+	    AnalogValue = HAL_ADC_GetValue(&hadc1);	           // Read ADC value on analog input
 
 
-	    snprintf(SendBuffer,BUFSIZE,"Hello World [%d]: Key:%d\n\r",Counter++,KeyState);
+
+	    KeyState = HAL_GPIO_ReadPin(GPIOH, GPIO_PIN_10);   // Read state of PH10
+	    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, KeyState);    // Write to PA3 accordingly
+
+
+	    snprintf(SendBuffer,BUFSIZE,"Hello World [%d]: Key:%d | ADC:%d\n\r",Counter++,KeyState,AnalogValue);
 	    HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),100);
 
 	    HAL_Delay(1000);
@@ -337,7 +344,7 @@ static void MX_ADC1_Init(void)
 
   /** Configure Regular Channel
   */
-  sConfig.Channel = ADC_CHANNEL_0;
+  sConfig.Channel = ADC_CHANNEL_18;
   sConfig.Rank = ADC_REGULAR_RANK_1;
   sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
   sConfig.SingleDiff = ADC_SINGLE_ENDED;
@@ -1101,6 +1108,9 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_RESET);
 
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, GPIO_PIN_RESET);
+
   /*Configure GPIO pin : PH15 */
   GPIO_InitStruct.Pin = GPIO_PIN_15;
   GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
@@ -1170,6 +1180,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(LCD_BL_GPIO_Port, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : PH10 */
+  GPIO_InitStruct.Pin = GPIO_PIN_10;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOH, &GPIO_InitStruct);
+
   /*Configure GPIO pin : OTG_FS2_OverCurrent_Pin */
   GPIO_InitStruct.Pin = OTG_FS2_OverCurrent_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
@@ -1197,6 +1213,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(LD1_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PA3 */
+  GPIO_InitStruct.Pin = GPIO_PIN_3;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
 }
 
