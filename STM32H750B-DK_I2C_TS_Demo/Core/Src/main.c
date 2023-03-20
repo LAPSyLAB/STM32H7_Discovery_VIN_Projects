@@ -179,6 +179,9 @@ uint8_t Space[] = " - ";
   MX_I2C4_Init();
   /* USER CODE BEGIN 2 */
 
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, 1);    // Set LCD_RST to high
+
+
   /*-[ I2C Bus Scanning ]-*/
 		snprintf(SendBuffer,BUFSIZE,"I2C Scanning started !\n\r");
 		HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),100);
@@ -212,13 +215,20 @@ uint8_t Space[] = " - ";
 	    HAL_GPIO_WritePin(GPIOJ, GPIO_PIN_2, KeyState);
 
 
-		// Reading register R0 (addr. 0x00) default value of 0x8994
+		// Reading from address 0x1a register R0 (addr. 0x00) default value should be 0x8994
 	    dataBuffer[0] = 0; dataBuffer[1] = 0x00;
 	    retval = HAL_I2C_Master_Transmit(&hi2c4, (0x1a << 1), dataBuffer, 2, HAL_MAX_DELAY);
 
 	    retval = HAL_I2C_Master_Receive(&hi2c4, (0x1a << 1), dataBuffer, 2, HAL_MAX_DELAY);
 
-	    snprintf(SendBuffer,BUFSIZE,"Hello World [%d]: Key:%d Reg.value:0x%4x\n\r",Counter++,KeyState, dataBuffer[0]*256+dataBuffer[1]);
+		// Reading from address 0x38 register Device Mode (addr. 0x00) default value should be ???
+	    dataBuffer[5] = 0xA8;
+	    retval = HAL_I2C_Master_Transmit(&hi2c4, (0x38 << 1), &dataBuffer[5], 1, HAL_MAX_DELAY);
+
+	    retval = HAL_I2C_Master_Receive(&hi2c4, (0x38 << 1), &dataBuffer[5], 1, HAL_MAX_DELAY);
+
+
+	    snprintf(SendBuffer,BUFSIZE,"Hello World [%d]: Key:%d Reg.value1:0x%4x Reg.value2:0x%2x=%d\n\r",Counter++,KeyState, dataBuffer[0]*256+dataBuffer[1],dataBuffer[5],dataBuffer[5]);
 	    HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),100);
 
 	    HAL_Delay(1000);
