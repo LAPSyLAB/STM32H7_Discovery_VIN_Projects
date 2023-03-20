@@ -499,7 +499,7 @@ int main(void)
  80006f2:	f04f 31ff 	mov.w	r1, #4294967295
  80006f6:	481e      	ldr	r0, [pc, #120]	; (8000770 <main+0xdc>)
  80006f8:	f002 fe84 	bl	8003404 <HAL_ADC_PollForConversion>
-	    AnalogValue = HAL_ADC_GetValue(&hadc1);
+	    AnalogValue = HAL_ADC_GetValue(&hadc1);	           // Read ADC value on analog input
  80006fc:	481c      	ldr	r0, [pc, #112]	; (8000770 <main+0xdc>)
  80006fe:	f002 ff75 	bl	80035ec <HAL_ADC_GetValue>
  8000702:	4603      	mov	r3, r0
@@ -508,7 +508,7 @@ int main(void)
 
 
 
-	    KeyState = HAL_GPIO_ReadPin(GPIOH, GPIO_PIN_10);
+	    KeyState = HAL_GPIO_ReadPin(GPIOH, GPIO_PIN_10);   // Read state of PH10
  8000708:	f44f 6180 	mov.w	r1, #1024	; 0x400
  800070c:	481a      	ldr	r0, [pc, #104]	; (8000778 <main+0xe4>)
  800070e:	f004 ff81 	bl	8005614 <HAL_GPIO_ReadPin>
@@ -516,7 +516,7 @@ int main(void)
  8000714:	461a      	mov	r2, r3
  8000716:	4b19      	ldr	r3, [pc, #100]	; (800077c <main+0xe8>)
  8000718:	601a      	str	r2, [r3, #0]
-	    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, KeyState);
+	    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, KeyState);    // Write to PA3 accordingly
  800071a:	4b18      	ldr	r3, [pc, #96]	; (800077c <main+0xe8>)
  800071c:	681b      	ldr	r3, [r3, #0]
  800071e:	b2db      	uxtb	r3, r3
