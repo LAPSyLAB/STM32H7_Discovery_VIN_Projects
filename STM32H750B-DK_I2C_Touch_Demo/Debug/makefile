@@ -34,34 +34,34 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := STM32H750B-DK_I2C_TS_Demo
+BUILD_ARTIFACT_NAME := STM32H750B-DK_I2C_Touch_Demo
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-STM32H750B-DK_I2C_TS_Demo.elf \
+STM32H750B-DK_I2C_Touch_Demo.elf \
 
 MAP_FILES += \
-STM32H750B-DK_I2C_TS_Demo.map \
+STM32H750B-DK_I2C_Touch_Demo.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-STM32H750B-DK_I2C_TS_Demo.list \
+STM32H750B-DK_I2C_Touch_Demo.list \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: STM32H750B-DK_I2C_TS_Demo.elf secondary-outputs
+main-build: STM32H750B-DK_I2C_Touch_Demo.elf secondary-outputs
 
 # Tool invocations
-STM32H750B-DK_I2C_TS_Demo.elf STM32H750B-DK_I2C_TS_Demo.map: $(OBJS) $(USER_OBJS) D:\Delovni\CubeIDE\Sluzba\STM32H7_Discovery_VIN_Projects\STM32H750B-DK_I2C_TS_Demo\STM32H750XBHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "STM32H750B-DK_I2C_TS_Demo.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"D:\Delovni\CubeIDE\Sluzba\STM32H7_Discovery_VIN_Projects\STM32H750B-DK_I2C_TS_Demo\STM32H750XBHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32H750B-DK_I2C_TS_Demo.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+STM32H750B-DK_I2C_Touch_Demo.elf STM32H750B-DK_I2C_Touch_Demo.map: $(OBJS) $(USER_OBJS) D:\Delovni\CubeIDE\Sluzba\STM32H7_Discovery_VIN_Projects\STM32H750B-DK_I2C_Touch_Demo\STM32H750XBHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "STM32H750B-DK_I2C_Touch_Demo.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"D:\Delovni\CubeIDE\Sluzba\STM32H7_Discovery_VIN_Projects\STM32H750B-DK_I2C_Touch_Demo\STM32H750XBHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32H750B-DK_I2C_Touch_Demo.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -70,14 +70,14 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-STM32H750B-DK_I2C_TS_Demo.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "STM32H750B-DK_I2C_TS_Demo.list"
+STM32H750B-DK_I2C_Touch_Demo.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "STM32H750B-DK_I2C_Touch_Demo.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) STM32H750B-DK_I2C_TS_Demo.elf STM32H750B-DK_I2C_TS_Demo.list STM32H750B-DK_I2C_TS_Demo.map default.size.stdout
+	-$(RM) STM32H750B-DK_I2C_Touch_Demo.elf STM32H750B-DK_I2C_Touch_Demo.list STM32H750B-DK_I2C_Touch_Demo.map default.size.stdout
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)

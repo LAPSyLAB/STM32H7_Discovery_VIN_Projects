@@ -96,6 +96,9 @@ int	Counter;
 int KeyState=0;
 uint8_t dataBuffer[10];
 
+uint8_t VendorID, DeviceMode, Gesture, Status, Touchxh, Touchxl, Touchyh, Touchyl;
+
+
 HAL_StatusTypeDef retval;
 uint8_t Answer;
 /* USER CODE END PV */
@@ -136,8 +139,7 @@ static void MX_I2C4_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-int i=0;
-uint8_t Space[] = " - ";
+
 
   /* USER CODE END 1 */
 
@@ -181,28 +183,6 @@ uint8_t Space[] = " - ";
 
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, 1);    // Set LCD_RST to high
 
-
-  /*-[ I2C Bus Scanning ]-*/
-		snprintf(SendBuffer,BUFSIZE,"I2C Scanning started !\n\r");
-		HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),100);
-
-		 for(i=1; i<128; i++)
-		 {
-			 retval = HAL_I2C_IsDeviceReady(&hi2c4, (uint16_t)(i<<1), 3, 5);
-			 if (retval != HAL_OK) /* No ACK Received At That Address */
-			 {
-				 HAL_UART_Transmit(&huart3, Space, sizeof(Space), 100);
-			 }
-			 else if(retval == HAL_OK)
-			 {
-				 snprintf(SendBuffer,BUFSIZE,"0x%X", i);
-				HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),1);
-			 }
-		 }
-			snprintf(SendBuffer,BUFSIZE,"I2C Scanning stopped !\n\r");
-			HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),100);
-   /*--[ Scanning Done ]--*/
-
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -215,20 +195,20 @@ uint8_t Space[] = " - ";
 	    HAL_GPIO_WritePin(GPIOJ, GPIO_PIN_2, KeyState);
 
 
-		// Reading from address 0x1a register R0 (addr. 0x00) default value should be 0x8994
-	    dataBuffer[0] = 0; dataBuffer[1] = 0x00;
-	    retval = HAL_I2C_Master_Transmit(&hi2c4, (0x1a << 1), dataBuffer, 2, HAL_MAX_DELAY);
+		// Reading from address 0x38 register Vendor's Chip ID (addr. 0xA8) default value should be 0x51=81  - Both variations work !
+	    //dataBuffer[5] = 0xA8;
+	    retval = HAL_I2C_Mem_Read(&hi2c4, (0x38 << 1), 0xA8, I2C_MEMADD_SIZE_8BIT,&VendorID, 1, HAL_MAX_DELAY);
+	    retval = HAL_I2C_Mem_Read(&hi2c4, (0x38 << 1), 0xA0, I2C_MEMADD_SIZE_8BIT,&DeviceMode, 1, HAL_MAX_DELAY);
+	    retval = HAL_I2C_Mem_Read(&hi2c4, (0x38 << 1), 0xA1, I2C_MEMADD_SIZE_8BIT,&Gesture, 1, HAL_MAX_DELAY);
+	    retval = HAL_I2C_Mem_Read(&hi2c4, (0x38 << 1), 0xA2, I2C_MEMADD_SIZE_8BIT,&Status, 1, HAL_MAX_DELAY);
+	    retval = HAL_I2C_Mem_Read(&hi2c4, (0x38 << 1), 0xA3, I2C_MEMADD_SIZE_8BIT,&Touchxh, 1, HAL_MAX_DELAY);
+	    retval = HAL_I2C_Mem_Read(&hi2c4, (0x38 << 1), 0xA4, I2C_MEMADD_SIZE_8BIT,&Touchxl, 1, HAL_MAX_DELAY);
+	    retval = HAL_I2C_Mem_Read(&hi2c4, (0x38 << 1), 0xA5, I2C_MEMADD_SIZE_8BIT,&Touchyh, 1, HAL_MAX_DELAY);
+	    retval = HAL_I2C_Mem_Read(&hi2c4, (0x38 << 1), 0xA6, I2C_MEMADD_SIZE_8BIT,&Touchyl, 1, HAL_MAX_DELAY);
 
-	    retval = HAL_I2C_Master_Receive(&hi2c4, (0x1a << 1), dataBuffer, 2, HAL_MAX_DELAY);
+	    retval = HAL_I2C_Mem_Read(&hi2c4, (0x38 << 1), 0xA0, I2C_MEMADD_SIZE_8BIT,dataBuffer, 10, HAL_MAX_DELAY);
 
-		// Reading from address 0x38 register Device Mode (addr. 0x00) default value should be ???
-	    dataBuffer[5] = 0xA8;
-	    retval = HAL_I2C_Master_Transmit(&hi2c4, (0x38 << 1), &dataBuffer[5], 1, HAL_MAX_DELAY);
-
-	    retval = HAL_I2C_Master_Receive(&hi2c4, (0x38 << 1), &dataBuffer[5], 1, HAL_MAX_DELAY);
-
-
-	    snprintf(SendBuffer,BUFSIZE,"Hello World [%d]: Key:%d Reg.value1:0x%4x Reg.value2:0x%2x=%d\n\r",Counter++,KeyState, dataBuffer[0]*256+dataBuffer[1],dataBuffer[5],dataBuffer[5]);
+	    snprintf(SendBuffer,BUFSIZE,"Hello World [%d]: Key:%d 8Touch ID: 0x%2x=%d\n\r",Counter++,KeyState, dataBuffer[8],dataBuffer[8]);
 	    HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),100);
 
 	    HAL_Delay(1000);
