@@ -195,7 +195,7 @@ uint8_t Space[] = " - ";
 			 }
 			 else if(retval == HAL_OK)
 			 {
-				 snprintf(SendBuffer,BUFSIZE,"0x%X", i);
+				 snprintf(SendBuffer,BUFSIZE,"0x%02X[0x%02X]", i, i<<1);
 				HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),1);
 			 }
 		 }

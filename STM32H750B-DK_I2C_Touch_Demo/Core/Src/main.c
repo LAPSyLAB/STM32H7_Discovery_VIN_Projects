@@ -94,6 +94,7 @@ SDRAM_HandleTypeDef hsdram1;
 char	SendBuffer[BUFSIZE];
 int	Counter;
 int KeyState=0;
+int TouchX, TouchY;
 uint8_t dataBuffer[10];
 
 uint8_t VendorID, DeviceMode, Gesture, Status, Touchxh, Touchxl, Touchyh, Touchyl;
@@ -198,17 +199,43 @@ int main(void)
 		// Reading from address 0x38 register Vendor's Chip ID (addr. 0xA8) default value should be 0x51=81  - Both variations work !
 	    //dataBuffer[5] = 0xA8;
 	    retval = HAL_I2C_Mem_Read(&hi2c4, (0x38 << 1), 0xA8, I2C_MEMADD_SIZE_8BIT,&VendorID, 1, HAL_MAX_DELAY);
-	    retval = HAL_I2C_Mem_Read(&hi2c4, (0x38 << 1), 0xA0, I2C_MEMADD_SIZE_8BIT,&DeviceMode, 1, HAL_MAX_DELAY);
-	    retval = HAL_I2C_Mem_Read(&hi2c4, (0x38 << 1), 0xA1, I2C_MEMADD_SIZE_8BIT,&Gesture, 1, HAL_MAX_DELAY);
-	    retval = HAL_I2C_Mem_Read(&hi2c4, (0x38 << 1), 0xA2, I2C_MEMADD_SIZE_8BIT,&Status, 1, HAL_MAX_DELAY);
-	    retval = HAL_I2C_Mem_Read(&hi2c4, (0x38 << 1), 0xA3, I2C_MEMADD_SIZE_8BIT,&Touchxh, 1, HAL_MAX_DELAY);
-	    retval = HAL_I2C_Mem_Read(&hi2c4, (0x38 << 1), 0xA4, I2C_MEMADD_SIZE_8BIT,&Touchxl, 1, HAL_MAX_DELAY);
-	    retval = HAL_I2C_Mem_Read(&hi2c4, (0x38 << 1), 0xA5, I2C_MEMADD_SIZE_8BIT,&Touchyh, 1, HAL_MAX_DELAY);
-	    retval = HAL_I2C_Mem_Read(&hi2c4, (0x38 << 1), 0xA6, I2C_MEMADD_SIZE_8BIT,&Touchyl, 1, HAL_MAX_DELAY);
 
-	    retval = HAL_I2C_Mem_Read(&hi2c4, (0x38 << 1), 0xA0, I2C_MEMADD_SIZE_8BIT,dataBuffer, 10, HAL_MAX_DELAY);
+//      Set Polling mode (no Interrupt) - not necessary
+//	    dataBuffer[0] = 0;
+//	    retval = HAL_I2C_Mem_Write(&hi2c4, (0x38 << 1), 0xA4, I2C_MEMADD_SIZE_8BIT,&dataBuffer[0], 1, HAL_MAX_DELAY);
 
-	    snprintf(SendBuffer,BUFSIZE,"Hello World [%d]: Key:%d 8Touch ID: 0x%2x=%d\n\r",Counter++,KeyState, dataBuffer[8],dataBuffer[8]);
+//   Reading Touch registers
+//	    01h  GEST_ID
+//	    02h  TD_STATUS    Number of touch points[3:0]
+//	    03h  TOUCH1_XH
+//	    04h  TOUCH1_XL
+//	    05h  TOUCH1_YH
+//	    06h  TOUCH1_YL
+//	    A8h  Vendor ID = 0x51
+
+	    retval = HAL_I2C_Mem_Read(&hi2c4, (0x38 << 1), 0x00, I2C_MEMADD_SIZE_8BIT,&DeviceMode, 1, HAL_MAX_DELAY);
+	    retval = HAL_I2C_Mem_Read(&hi2c4, (0x38 << 1), 0x01, I2C_MEMADD_SIZE_8BIT,&Gesture, 1, HAL_MAX_DELAY);
+	    retval = HAL_I2C_Mem_Read(&hi2c4, (0x38 << 1), 0x02, I2C_MEMADD_SIZE_8BIT,&Status, 1, HAL_MAX_DELAY);
+
+//	    retval = HAL_I2C_Mem_Read(&hi2c4, (0x38 << 1), 0x03, I2C_MEMADD_SIZE_8BIT,&Touchxh, 1, HAL_MAX_DELAY);
+//	    retval = HAL_I2C_Mem_Read(&hi2c4, (0x38 << 1), 0x04, I2C_MEMADD_SIZE_8BIT,&Touchxl, 1, HAL_MAX_DELAY);
+//	    retval = HAL_I2C_Mem_Read(&hi2c4, (0x38 << 1), 0x05, I2C_MEMADD_SIZE_8BIT,&Touchyh, 1, HAL_MAX_DELAY);
+//	    retval = HAL_I2C_Mem_Read(&hi2c4, (0x38 << 1), 0x06, I2C_MEMADD_SIZE_8BIT,&Touchyl, 1, HAL_MAX_DELAY);
+//	    TouchX =  (Touchxh & 0x0f) * 256 + Touchxl;
+//		TouchY =  (Touchyh & 0x0f) * 256 + Touchyl;
+
+
+		retval = HAL_I2C_Mem_Read(&hi2c4, (0x38 << 1), 0x3, I2C_MEMADD_SIZE_8BIT,&dataBuffer, 4, HAL_MAX_DELAY);
+	    if (Status != 0) {
+			TouchX = ( (dataBuffer[0] & 0b1111) << 8) + dataBuffer[1];
+			TouchY = ( (dataBuffer[2] & 0b1111) << 8) + dataBuffer[3];
+	    } else {
+			TouchX = 0;
+			TouchY = 0;
+
+	    }
+
+	    snprintf(SendBuffer,BUFSIZE,"Hello World [%d]: Key:%d TouchID: 0x%02x=%d Status:%d Gesture:0x%02x X:%d Y:%d\n\r",Counter++,KeyState, VendorID,VendorID,Status & 0b1111,Gesture, TouchX,TouchY);
 	    HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),100);
 
 	    HAL_Delay(1000);
