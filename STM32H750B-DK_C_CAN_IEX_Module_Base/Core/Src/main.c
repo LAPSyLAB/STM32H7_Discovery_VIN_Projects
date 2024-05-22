@@ -60,6 +60,8 @@ int Cnt=0;
 #define BUFSIZE 256
 char SendBuffer[BUFSIZE];
 
+int KeyState=0;
+
 /* CANBUS related */
 HAL_StatusTypeDef retval;
 uint32_t CanRxMsgCnt = 0;
@@ -255,6 +257,10 @@ int main(void)
 
 			lastTime1s = HAL_GetTick();
 	 	}
+
+
+	    KeyState = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13);
+
 
   }
   /* USER CODE END 3 */
