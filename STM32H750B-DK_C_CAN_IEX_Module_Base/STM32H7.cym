@@ -1,0 +1,121 @@
+object THWModule
+  Name = 'STM32F4'
+  CardID = 250
+  Description = 'STM32F4 Multi Sensor 1 user key input/4 LED outputs, 2xADC inputs'
+  Capabilities = []
+  DisplayWidth = 0
+  DisplayHeight = 0
+  MaskMemorySize = 0
+  VarPrefix = 'stm?_'
+  IOAllocData =
+  <
+    item
+      Typ = vaInBit
+      EventPriority = epNone
+      Vars =
+      <
+        item
+          Name = 'ix*'
+          Description = 'User (blue) key - button.'
+          Offset = 0
+        end
+
+     >
+    end
+	
+    item
+      Typ = vaInBit
+      EventPriority = epNone
+      Vars =
+      <
+        item
+          Name = 'general_error'
+          Description = 'One or more system errors occured (timeout, program or bus error).'
+          Offset = 16
+        end
+        item
+          Name = 'timeout_error'
+          Description = 'Communication failed, no messages are coming from the module.'
+          Offset = 17
+        end
+        item
+          Name = 'program_error'
+          Description = 'Internal or configuration error detected, module is not functional.'
+          Offset = 18
+        end
+        item
+          Name = 'bus_error'
+          Description = 'Module detected a number of communication errors, but it is still working.'
+          Offset = 19
+        end
+      >
+    end
+    item
+      Typ = vaInWord
+      EventPriority = epNone
+      Vars =
+      <
+        item
+          Name = 'ad_*'
+          Description = 'ADC Channel.'
+          Offset = 0
+        end
+        item
+          Name = 'ad_*'
+          Description = 'ADC Channel.'
+          Offset = 1
+        end
+      >
+    end
+
+    item
+      Typ = vaOutBit
+      EventPriority = epOnChange
+      Vars =
+      <
+        item
+          Name = 'qx*'
+          Description = 'LED output (0-off, 1-on).'
+          Offset = 0
+        end
+        item
+          Name = 'qx*'
+          Description = 'LED output (0-off, 1-on).'
+          Offset = 1
+        end
+        item
+          Name = 'qx*'
+          Description = 'LED output (0-off, 1-on).'
+          Offset = 2
+        end
+        item
+          Name = 'qx*'
+          Description = 'LED output (0-off, 1-on).'
+          Offset = 3
+        end
+      >
+    end
+    
+    item
+      Typ = vaOutWord
+      EventPriority = epOnChange
+      Vars =
+      <
+        item
+          Name = 'pwm_*'
+          Description = 'Level should be between 0-127.'
+          Offset = 0
+        end
+        item
+          Name = 'pwm_*'
+          Description = 'Level should be between 0-127.'
+          Offset = 1
+        end
+      >
+    end
+
+  >
+end
+
+
+
