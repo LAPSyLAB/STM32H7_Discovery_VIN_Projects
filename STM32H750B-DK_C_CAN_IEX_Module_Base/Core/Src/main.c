@@ -86,6 +86,14 @@ uint32_t CurTimeStamp, lastTime1s;
 #define CLASS_MASK 0xF0       /* mask for class - command        */
 #define DIR_MASK   0x08       /* mask for direction bit  */
 #define ARG_MASK   0x07       /* mask for argument       */
+#define IX_STATUS  0x04      /* Status Message Argument */
+
+#define IX_DATA 0x38        /* binary inputs  */
+#define QX_DATA 0x30        /* binary outputs */
+#define IW_DATA 0x78        /* analog inputs  */
+#define QW_DATA 0x70        /* analog outputs */
+
+#define BAUDSYNC 0xF0       /* baud sync message (for autobaud sync of modules) */
 
 #define IEX2_COMMAND_BIT_DATA   0x6000000
 #define IEX2_DIRECTION_NODE2RC  0x1000000

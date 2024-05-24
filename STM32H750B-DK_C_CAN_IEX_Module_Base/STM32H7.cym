@@ -1,12 +1,12 @@
 object THWModule
-  Name = 'STM32F4'
-  CardID = 250
-  Description = 'STM32F4 Multi Sensor 1 user key input/4 LED outputs, 2xADC inputs'
+  Name = 'STM32H7'
+  CardID = 251
+  Description = 'STM32H7 Multi Sensor 1 user key input/4 LED outputs, 2xADC inputs, 2xPWM outputs'
   Capabilities = []
   DisplayWidth = 0
   DisplayHeight = 0
   MaskMemorySize = 0
-  VarPrefix = 'stm?_'
+  VarPrefix = 'stmh7?_'
   IOAllocData =
   <
     item

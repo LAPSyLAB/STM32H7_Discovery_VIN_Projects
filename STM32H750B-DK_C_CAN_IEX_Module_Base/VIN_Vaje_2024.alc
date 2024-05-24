@@ -1,0 +1,109 @@
+;CPU CyBro-2 9322 
+;Addr Id    Array Offset Size Scope  Type  Name                             
+0000  00000 1     0      1    global bit   cybro_ix00                       Binary input (0-open, 1-closed).
+0001  00000 1     0      1    global bit   cybro_ix01                       Binary input (0-open, 1-closed).
+0002  00000 1     0      1    global bit   cybro_ix02                       Binary input (0-open, 1-closed).
+0003  00000 1     0      1    global bit   cybro_ix03                       Binary input (0-open, 1-closed).
+0004  00000 1     0      1    global bit   cybro_ix04                       Binary input (0-open, 1-closed).
+0005  00000 1     0      1    global bit   cybro_ix05                       Binary input (0-open, 1-closed).
+0006  00000 1     0      1    global bit   cybro_ix06                       Binary input (0-open, 1-closed).
+0007  00000 1     0      1    global bit   cybro_ix07                       Binary input (0-open, 1-closed).
+0008  00000 1     0      1    global bit   cybro_ix08                       Binary input (0-open, 1-closed).
+0009  00000 1     0      1    global bit   cybro_ix09                       Binary input (0-open, 1-closed).
+0010  00000 1     0      1    global bit   first_scan                       Active during first scan only.
+0011  00000 1     0      1    global bit   scan_overrun                     Scan time longer than 60ms caused scan overrun error.
+0012  00000 1     0      1    global bit   general_error                    Logical or of IEX general errors, indicates that at least one module has an error.
+0013  00000 1     0      1    global bit   clock_10ms                       10ms clock (5ms+5ms).
+0014  00000 1     0      1    global bit   clock_100ms                      100ms clock (50ms+50ms).
+0015  00000 1     0      1    global bit   clock_1s                         1s clock (0.5s+0.5s).
+0016  00000 1     0      1    global bit   clock_10s                        10s clock (5s+5s).
+0017  00000 1     0      1    global bit   clock_1min                       1min clock (30s+30s).
+0018  00000 1     0      1    global bit   retentive_fail                   Indicates that retentive memory failed.
+0020  00000 1     0      1    global bit   bio00_ix00                       Binary input (0-open, 1-closed).
+0021  00000 1     0      1    global bit   bio00_ix01                       Binary input (0-open, 1-closed).
+0022  00000 1     0      1    global bit   bio00_ix02                       Binary input (0-open, 1-closed).
+0023  00000 1     0      1    global bit   bio00_ix03                       Binary input (0-open, 1-closed).
+0024  00000 1     0      1    global bit   bio00_ix04                       Binary input (0-open, 1-closed).
+0025  00000 1     0      1    global bit   bio00_ix05                       Binary input (0-open, 1-closed).
+0026  00000 1     0      1    global bit   bio00_ix06                       Binary input (0-open, 1-closed).
+0027  00000 1     0      1    global bit   bio00_ix07                       Binary input (0-open, 1-closed).
+0028  00000 1     0      1    global bit   bio00_ix08                       Binary input (0-open, 1-closed).
+0029  00000 1     0      1    global bit   bio00_ix09                       Binary input (0-open, 1-closed).
+002A  00000 1     0      1    global bit   bio00_ix10                       Binary input (0-open, 1-closed).
+002B  00000 1     0      1    global bit   bio00_ix11                       Binary input (0-open, 1-closed).
+0030  00000 1     0      1    global bit   bio00_general_error              Combined system error (timeout or program error), module is not operational.
+0031  00000 1     0      1    global bit   bio00_timeout_error              Communication failure, no messages are received from module.
+0032  00000 1     0      1    global bit   bio00_program_error              No valid firmware, bootloader active. Module is not functional.
+0033  00000 1     0      1    global bit   bio00_bus_error                  Bus quality warning, one or more communication errors detected.
+0040  00000 1     0      1    global bit   stmh700_ix00                     User (blue) key - button.
+0050  00000 1     0      1    global bit   stmh700_general_error            One or more system errors occured (timeout, program or bus error).
+0051  00000 1     0      1    global bit   stmh700_timeout_error            Communication failed, no messages are coming from the module.
+0052  00000 1     0      1    global bit   stmh700_program_error            Internal or configuration error detected, module is not functional.
+0053  00000 1     0      1    global bit   stmh700_bus_error                Module detected a number of communication errors, but it is still working.
+0400  00000 1     0      1    global bit   cybro_qx00                       Relay output (0-open, 1-closed).
+0401  00000 1     0      1    global bit   cybro_qx01                       Relay output (0-open, 1-closed).
+0402  00000 1     0      1    global bit   cybro_qx02                       Relay output (0-open, 1-closed).
+0403  00000 1     0      1    global bit   cybro_qx03                       Relay output (0-open, 1-closed).
+0404  00000 1     0      1    global bit   cybro_qx04                       Relay output (0-open, 1-closed).
+0405  00000 1     0      1    global bit   cybro_qx05                       Relay output (0-open, 1-closed).
+0406  00000 1     0      1    global bit   cybro_qx06                       Relay output (0-open, 1-closed).
+0407  00000 1     0      1    global bit   cybro_qx07                       Relay output (0-open, 1-closed).
+0410  00000 1     0      1    global bit   cybro_outputs_off                If active, all CyBro binary outputs instantly go off. IEX modules are not affected.
+0411  00000 1     0      1    global bit   no_input_filter                  Set to turn off 5ms filter for CyBro binary inputs. Use when high-speed inputs are needed.
+0412  00000 1     0      1    global bit   rtc_read_req                     Set to read current date/time from RTC. It will automatically reset when finished.
+0413  00000 1     0      1    global bit   rtc_write_req                    Set to write current date/time to RTC. It will automatically reset when finished.
+0414  00000 1     0      1    global bit   ee_read_req                      Set to read all EE variables from EEPROM. It is automatically set during power-up. It will automatically reset when finished.
+0415  00000 1     0      1    global bit   ee_write_req                     Set to write all EE variables to EEPROM. Also needs ee_write_magic to enable writing. It will automatically reset when finished.
+0416  00000 1     0      1    global bit   push_message_req                 Set to send ethernet push message, used to open connection between CyBro and push server. It will automatically reset when message is sent.
+0417  00000 1     0      1    global bit   push_message_ack                 Set by push server to acknowledge push message. Used to check connection between CyBro and push server. PLC program should reset it.
+0418  00000 1     0      1    global bit   disconnect_inputs                When active, all binary inputs (including IEX modules) are disconnected, retaining the last value. Input values can be modified with online monitor.
+0420  00000 1     0      1    global bit   bio00_qx00                       Relay output (0-open, 1-closed).
+0421  00000 1     0      1    global bit   bio00_qx01                       Relay output (0-open, 1-closed).
+0422  00000 1     0      1    global bit   bio00_qx02                       Relay output (0-open, 1-closed).
+0423  00000 1     0      1    global bit   bio00_qx03                       Relay output (0-open, 1-closed).
+0424  00000 1     0      1    global bit   bio00_qx04                       Relay output (0-open, 1-closed).
+0425  00000 1     0      1    global bit   bio00_qx05                       Relay output (0-open, 1-closed).
+0426  00000 1     0      1    global bit   bio00_qx06                       Relay output (0-open, 1-closed).
+0427  00000 1     0      1    global bit   bio00_qx07                       Relay output (0-open, 1-closed).
+0428  00000 1     0      1    global bit   bio00_qx08                       Relay output (0-open, 1-closed).
+0429  00000 1     0      1    global bit   bio00_qx09                       Relay output (0-open, 1-closed).
+042A  00000 1     0      1    global bit   bio00_qx10                       Relay output (0-open, 1-closed).
+042B  00000 1     0      1    global bit   bio00_qx11                       Relay output (0-open, 1-closed).
+0430  00000 1     0      1    global bit   bio00_sys_req                    Request to send filter settings to module. It will set automatically on stop-to-run and power-up. Should be set by PLC program to send new settings. It will reset automatically.
+0440  00000 1     0      1    global bit   stmh700_qx00                     LED output (0-off, 1-on).
+0441  00000 1     0      1    global bit   stmh700_qx01                     LED output (0-off, 1-on).
+0442  00000 1     0      1    global bit   stmh700_qx02                     LED output (0-off, 1-on).
+0443  00000 1     0      1    global bit   stmh700_qx03                     LED output (0-off, 1-on).
+0800  00000 1     0      2    global int   cybro_iw00                       Internal 8-bit analog input, 0..255 is 0..20mA or 0..10V.
+0802  00000 1     0      2    global int   cybro_iw01                       Internal 8-bit analog input, 0..255 is 0..20mA or 0..10V.
+0804  00000 1     0      2    global int   cybro_iw02                       Internal 8-bit analog input, 0..255 is 0..20mA or 0..10V.
+0806  00000 1     0      2    global int   cybro_iw03                       Internal 8-bit analog input, 0..255 is 0..20mA or 0..10V.
+0820  00000 1     0      2    global int   scan_time                        Last scan execution time [ms].
+0822  00000 1     0      2    global int   scan_time_max                    Maximal scan execution time encountered since program started [ms].
+0824  00000 1     0      2    global int   scan_frequency                   Actual number of scans per second.
+0826  00000 1     0      2    global int   ee_write_magic                   Used as EEPROM write protection. Set to 31415 to enable writing. It will automatically reset when writing is finished.
+0828  00000 1     0      2    global int   socket_0_id                      Software-defined socket id of 1st socket in the list.
+082A  00000 1     0      2    global int   socket_1_id                      Software-defined socket id of 2nd socket in the list.
+082C  00000 1     0      2    global int   can_rx_msg_per_second            Number of received messages per second.
+082E  00000 1     0      2    global int   can_tx_msg_per_second            Number of transmitted messages per second.
+0830  00000 1     0      2    global int   can_rx_error_counter             Current value of receive error counter (0..255).
+0832  00000 1     0      2    global int   can_tx_error_counter             Current value of transmit error counter (0..255).
+0840  00000 1     0      2    global int   bio00_counter00                  Pulse counter for ix00. Counter advances on positive edge. Maximum frequency is cca. 1KHz, filter settings doesnt apply.
+0842  00000 1     0      2    global int   bio00_counter01                  Pulse counter for ix01. Counter advances on positive edge. Maximum frequency is cca. 1KHz, filter settings doesnt apply.
+0844  00000 1     0      2    global int   bio00_counter02                  Pulse counter for ix02. Counter advances on positive edge. Maximum frequency is cca. 1KHz, filter settings doesnt apply.
+0846  00000 1     0      2    global int   bio00_counter03                  Pulse counter for ix03. Counter advances on positive edge. Maximum frequency is cca. 1KHz, filter settings doesnt apply.
+0880  00000 1     0      2    global int   stmh700_ad_00                    ADC Channel.
+0882  00000 1     0      2    global int   stmh700_ad_01                    ADC Channel.
+1000  00000 1     0      2    global int   cybro_qw00                       Internal 8-bit analog output, 0..255 is 0..10V.
+1020  00000 1     0      2    global int   rtc_sec                          Seconds of internal real-time clock (0..59).
+1022  00000 1     0      2    global int   rtc_min                          Minutes of internal real-time clock (0..59).
+1024  00000 1     0      2    global int   rtc_hour                         Hours of internal real-time clock (0..59).
+1026  00000 1     0      2    global int   rtc_weekday                      Weekday of internal real-time clock (0-Sunday, 1-Monday, 2-Tuesday, 3-Wednesday, 4-Thursday, 5-Friday, 6-Saturday).
+1028  00000 1     0      2    global int   rtc_date                         Date of internal real-time clock (1..31).
+102A  00000 1     0      2    global int   rtc_month                        Month of internal real-time clock (1..12).
+102C  00000 1     0      2    global int   rtc_year                         Year of internal real-time clock (2000..2099).
+1060  00000 1     0      2    global int   bio00_no_filter                  Disable default input filtering (5ms) for each particular input (no_filter=3 -> inputs ix0 and ix1 not filtered). Use in critical applications to achieve best response time.
+1062  00000 1     0      2    global int   bio00_slow_filter                Enable extra input filtering (100ms) for each particular input (slow_filter=3 -> inputs ix0 and ix1 have slow filter). Use in a noisy environment.
+1080  00000 1     0      2    global int   stmh700_pwm_00                   Level should be between 0-127.
+1082  00000 1     0      2    global int   stmh700_pwm_01                   Level should be between 0-127.
+

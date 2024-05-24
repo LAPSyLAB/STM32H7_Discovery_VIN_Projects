@@ -1,0 +1,84 @@
+Demo projekt za USB VComPort (USART3), CANBUS povezavo in IEX modul na STM32H7
+
+Implementiran je osnova za IEX modul, ki deluje v skladu s protokolom IEX-2 podjetij Cybrotech in Robotina.
+Podpira 3 digitalne izhode (vse uporabniške LED diode) in en digitalni vhod (USER tipka - modra).
+
+Dodan je tudi izpis vsebin CANBUS sporočil po protokolu IEX, podjetij Cybrotech in Robotina.
+
+
+USB COM port izpisuje sporočila in omogoča tudi enostavne nastavitve :
+
+HW : STM32H7 Discovery že vsebuje že 2 FDCAN enoti in oba vsebujeta že CANBUS PHY vezje.  
+
+V projektu sta tudi dve zunanji datoteki :
+STM32H7.cym  ... datoteka z opisom modula STM32F4 in ga uporabi Cypro 2 IDE za razvoj programa na glavnem mikrokrmilniku Cybro
+
+STM32H7_Demo.cyp ... datoteka s programom za glavni mikrokrmilnik Cybro - ena dioda se preklopi vsakih 10 sekund, dve pa se nastavita glede na stanje tipke, pozitivno ali negativno fronto.
+
+Postopek :
+
+1. New project -> STM32 Project -> Board -> STM32H750-B
+2. CubeMX: 
+    Spremeniti nastavitv za FDCAN1
+	
+3. generirati kodo in dodati naslednje odseke :
+	main.c :
+		izpis na USB VCom port 
+		LED diode
+			
+			
+			glavna zanka :	
+			
+
+4. CANBUS - prisluh in izpis sporočilom po IEX-2 protokolu
+
+Aktivira se CANBUS naprava z "odprtim" filtrom - torej sprejema čisto vsa sporočila.
+
+5. Cypro integracija
+	prenesi definicijsko datoteko STM32F4.cym v Cypro Hardware direktorij
+	
+	poženi preprost testni program v glavnem krmilniku
+	
+		if fp(clock_10s)  then
+		   stmh700_qx00:=!stm00_qx00;  //LED
+		end_if;
+		
+		
+		
+		if fp(stmh700_ix00)  then
+		   stmh700_qx01:=!stm00_qx01;  //LED
+		end_if;
+		
+	
+6. STM32H7 in IEX-2 protokol 
+
+	modul mora :
+		- vsake pol sekunde poslati status in vrsto modula, da ga Cybro zazna
+		
+			CurTimeStamp = HAL_GetTick();
+		 	if ((CurTimeStamp - lastTime1s) >= 500) {
+		    	// Send two bytes (0xCC,0xCC) on FDCAN1 (as normal classic CAN message with ID 0x555)
+				retval = HAL_FDCAN_AddMessageToTxFifoQ(&hfdcan1, &TxHeader, status_data);
+	
+				if (retval == HAL_OK) {
+					  CanTxMsgCnt++;
+					  snprintf (SendBuffer,BUFSIZE,"\r\nCAN Message Nr. %d sent!\r\n", CanTxMsgCnt);
+					  HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),1000);
+	
+				}
+	
+				lastTime1s = HAL_GetTick();
+		 	}
+			
+		- sprejemati QX sporočila, ki določajo stanje LED diod kot izhodov
+		
+			dopolni program
+			
+		- pošiljati IX sporočila, če se spremeni stanje USER tipke
+		
+			dopolni program
+	
+Datoteke :
+- main.c
+
+
