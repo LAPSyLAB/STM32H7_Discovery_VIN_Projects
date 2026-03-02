@@ -43,6 +43,8 @@ void DMA2_Stream0_IRQHandler(void);
 void DMA2_Stream5_IRQHandler(void);
 uint8_t CheckForUserInput(void);
 void Toggle_Leds(void);
+
+void Touchscreen_demo(void);
 void Touchscreen_DrawBackground_Circles(uint8_t state);
 uint8_t TouchScreen_GetTouchPosition(void);
 
