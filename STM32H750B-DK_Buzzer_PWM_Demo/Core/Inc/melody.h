@@ -2,7 +2,7 @@
  * melody.h
  *
  *  Created on: May 27, 2021
- *      Author: rozman
+ *      Author: unknown (adapted by Rozman)
  */
 
 #ifndef INC_MELODY_H_

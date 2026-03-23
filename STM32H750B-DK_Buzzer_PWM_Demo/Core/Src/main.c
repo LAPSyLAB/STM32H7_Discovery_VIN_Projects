@@ -95,6 +95,15 @@ char	SendBuffer[BUFSIZE];
 int	Counter;
 int KeyState=0;
 
+int ARR_period;
+int melodyIndex;
+int noteIndex;
+int melodyCount;
+int NoteFreq;
+int Delaymsecs;
+int PWM_Duty=10;
+int PWM_Freq=1000;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -119,7 +128,7 @@ static void MX_USB_OTG_FS_PCD_Init(void);
 static void MX_TIM2_Init(void);
 /* USER CODE BEGIN PFP */
 static void setPWM(TIM_HandleTypeDef, uint32_t, uint16_t, uint16_t);
-
+void PlayMelodies_PWM(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -138,6 +147,43 @@ void setPWM(TIM_HandleTypeDef timer, uint32_t channel, uint16_t period, uint16_t
 	 HAL_TIM_PWM_Start(&timer, channel); // start pwm generation
 }
 
+void PlayMelodies_PWM()
+{
+	  melodyCount = sizeof(melodySizes)/ sizeof(uint32_t);
+
+	  for(melodyIndex = 0; melodyIndex < melodyCount; melodyIndex++)
+	  {
+		  for(noteIndex = 0; noteIndex < melodySizes[melodyIndex]; noteIndex++)
+	  	  {
+			  NoteFreq = melody[melodyIndex][noteIndex];
+			  if (NoteFreq == 0) NoteFreq = 1;
+
+			  ARR_period = (int)(1000000/NoteFreq);  //Already prescaled to 1 MHz
+  		      setPWM(htim2, TIM_CHANNEL_4, ARR_period, ARR_period/2);
+
+			  Delaymsecs = noteDurations[melodyIndex][noteIndex] * melodySlowfactor[melodyIndex];
+
+			  snprintf (SendBuffer,BUFSIZE,"Melody[%d],Note #%d F=%d Hz Duration:%d ms| ARR=%d CCR1=%d\r\n",melodyIndex,noteIndex,melody[melodyIndex][noteIndex],Delaymsecs,htim2.Instance->ARR,htim2.Instance->CCR1);
+			  HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),100);
+
+			  HAL_GPIO_TogglePin(GPIOI, GPIO_PIN_13);
+
+		  	  HAL_Delay(Delaymsecs);
+	  	  }
+		  snprintf (SendBuffer,BUFSIZE,"\r\n\r\nEnd of Melody[%d]\r\n\r\n",melodyIndex);
+		  HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),100);
+
+	  }
+
+	  HAL_GPIO_TogglePin(GPIOJ, GPIO_PIN_2);
+
+	  snprintf (SendBuffer,BUFSIZE,"\r\n\r\nEnd of All Melodies[%d]\r\n\r\n",melodyIndex);
+	  HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),1);
+
+    HAL_Delay(2000);
+
+}
+
 /* USER CODE END 0 */
 
 /**
@@ -147,12 +193,6 @@ void setPWM(TIM_HandleTypeDef timer, uint32_t channel, uint16_t period, uint16_t
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	int ARR_period;
-	int melodyIndex;
-	int noteIndex;
-	int melodyCount;
-	int NoteFreq;
-	int Delaymsecs;
 
   /* USER CODE END 1 */
 
@@ -195,55 +235,40 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_4);
 
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  melodyCount = sizeof(melodySizes)/ sizeof(uint32_t);
 
-	  for(melodyIndex = 0; melodyIndex < melodyCount; melodyIndex++)
-	  {
-		  for(noteIndex = 0; noteIndex < melodySizes[melodyIndex]; noteIndex++)
-	  	  {
-//		  	  buzzerSetNewFrequency(melody[melodyIndex][noteIndex]);
-			  NoteFreq = melody[melodyIndex][noteIndex];
-			  if (NoteFreq == 0) NoteFreq = 1;
+          KeyState = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13); // Preberi stanje dig. vhoda (USER tipka) v KeyState
+          if (KeyState == 1) {
+        	  PlayMelodies_PWM();
+          };
 
-			  ARR_period = (int)(1000000/NoteFreq);  //Already prescaled to 1 MHz
-    		  setPWM(htim2, TIM_CHANNEL_4, ARR_period, ARR_period/2);
 
-			  Delaymsecs = noteDurations[melodyIndex][noteIndex] * melodySlowfactor[melodyIndex];
+		  ARR_period = (int)(1000000/PWM_Freq);  //Already prescaled to 1 MHz
+		  setPWM(htim2, TIM_CHANNEL_4, ARR_period, PWM_Duty * ARR_period/100);
 
-			  snprintf (SendBuffer,BUFSIZE,"Melody[%d],Note #%d F=%d Hz Duration:%d ms| ARR=%d CCR1=%d\r\n",melodyIndex,noteIndex,melody[melodyIndex][noteIndex],Delaymsecs,htim2.Instance->ARR,htim2.Instance->CCR1);
-			  HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),100);
+		  HAL_GPIO_TogglePin(GPIOJ, GPIO_PIN_2);
 
-			  HAL_GPIO_TogglePin(GPIOI, GPIO_PIN_13);
-//			  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_3);
-//			  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_4);
-//			  HAL_GPIO_TogglePin(GPIOH, GPIO_PIN_10);
-//			  HAL_GPIO_TogglePin(GPIOH, GPIO_PIN_12);
-
-		  	  HAL_Delay(Delaymsecs);
-	  	  }
-		  snprintf (SendBuffer,BUFSIZE,"\r\n\r\nEnd of Melody[%d]\r\n\r\n",melodyIndex);
+		  snprintf (SendBuffer,BUFSIZE,"PWM Freq: %d Hz, Duty: %d %%\n\r",PWM_Freq,PWM_Duty );
 		  HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),100);
-
-	  }
-
 
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  HAL_GPIO_TogglePin(GPIOJ, GPIO_PIN_2);
-
-	  snprintf (SendBuffer,BUFSIZE,"\r\n\r\nEnd of All Melodies[%d]\r\n\r\n",melodyIndex);
-	  HAL_UART_Transmit(&huart3,SendBuffer,strlen(SendBuffer),1);
 
       HAL_Delay(2000);
 
-  }
+      PWM_Duty+=10;
+      if (PWM_Duty > 100) {
+    	  PWM_Duty=10;
+      };
+
+   }
   /* USER CODE END 3 */
 }
 
