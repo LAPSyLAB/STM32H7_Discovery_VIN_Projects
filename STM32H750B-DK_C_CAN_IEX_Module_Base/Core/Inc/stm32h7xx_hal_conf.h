@@ -512,4 +512,13 @@
 }
 #endif
 
+/* USER CODE BEGIN 1 */
+ #ifndef DLYB_MAX_UNIT
+   #define DLYB_MAX_UNIT   ((uint32_t)0x00000080U)
+   #define DLYB_MAX_SELECT ((uint32_t)0x0000007FU)
+ #endif
+/* USER CODE END 1 */
+
+
+
 #endif /* STM32H7xx_HAL_CONF_H */

@@ -103,7 +103,7 @@ uint32_t CurTimeStamp, lastTime1s;
 //----------------------------------------------------------------------------
 // S T A R T   O F   G L O B A L    C O N F I G    S E C T I O N
 
-#define NAD_default (long)750				/*!< Defines Node V4 NAD for IEX bus protocol. It could be NAD_v2+27. */
+#define NAD_default (long)750				/*!< Defines Node NAD for IEX bus protocol. It could be NAD_v2+27. */
 // These are IDs that are reported to IEX master for module identification (read appropriate .cym files)
 #define IEX2_CYM_ID     251   // 255 is max, select unique ID, also specified in .cym file
 
@@ -272,7 +272,6 @@ int main(void)
 
   }
   /* USER CODE END 3 */
-
 }
 
 /**
